@@ -3,13 +3,13 @@ entries:
   tekton-dashboard:
   - apiVersion: v1
     appVersion: 0.35.0
-    created: "2023-05-22T13:35:04.310501117Z"
+    created: "2023-05-22T13:39:37.696542136Z"
     description: A Helm chart for Tekton Pipelines Dashboard
-    digest: 6b659e5696051e7f1386640e678ed47059298527250cc8a6e5e8dfa46f79dc27
+    digest: 5359dab1e47434f5f626658ed20f748e5fa4c7face5cf624f0efb6c9a1e0dbee
     home: https://github.com/jenkins-x/tekton-dashboard-helm-chart
     icon: https://avatars2.githubusercontent.com/u/47602533
     name: tekton-dashboard
     urls:
     - tekton-dashboard-0.0.1.tgz
     version: 0.0.1
-generated: "2023-05-22T13:35:04.309950471Z"
+generated: "2023-05-22T13:39:37.695974576Z"
