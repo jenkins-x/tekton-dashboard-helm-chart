@@ -14,4 +14,4 @@ jobs:
         with:
           access-token: ${{ secrets.GIT_TOKEN }}
           charts-folder: "charts"
-          deploy-branch: "gh-pages"
+          deploy-branch: "main"
