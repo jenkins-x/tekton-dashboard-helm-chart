@@ -5,10 +5,11 @@ metadata:
   name: tekton-dashboard
   namespace: tekton-pipelines
 spec:
-  {{- if .Values.tls.enabled }}
-  tls:
-    - secretName: {{ .Values.secretName }}
-      hosts: {{ .Values.url }}
+   {{- if .Values.tls.enabled }}
+   tls:
+   - hosts: 
+     - {{ .Values.url }}
+     secretName: {{ .Values.secretName }}
   rules:
   - host: {{ .Values.url }}
     http:
@@ -20,4 +21,4 @@ spec:
             port:
               number: 9097
 {{- end }}
-  {{- end }}
+   {{- end }}

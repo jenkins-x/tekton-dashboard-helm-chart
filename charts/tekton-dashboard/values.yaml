@@ -1,4 +1,4 @@
-#url: tekton-dashboard.acme.com
-#tls:
+# url: tekton-dashboard.acme.com
+# tls:
 #  enabled: true
-#secretName:
+# secretName:
