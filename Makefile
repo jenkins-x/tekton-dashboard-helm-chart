@@ -14,9 +14,9 @@ else
 endif
 	jx gitops split -d ${CHART_DIR}/templates
 	jx gitops rename -d ${CHART_DIR}/templates
-    # Remove namespace from metadata to force with helm install
+  # Remove namespace from metadata to force with helm install
 	yq -i eval 'del(.metadata.namespace)' charts/tekton-dashboard/templates/*.yaml
-    # Amend subjects.namespace with release.namespace
+  # Amend subjects.namespace with release.namespace
 	yq -i '.subjects[].namespace = "{{ .Release.Namespace }}"'   charts/tekton-dashboard/templates/tekton-dashboard-backend-crb.yaml
 	yq -i '.subjects[].namespace = "{{ .Release.Namespace }}"'   charts/tekton-dashboard/templates/tekton-dashboard-tenant-crb.yaml
 	# kustomize the resources to include some helm template blocs
