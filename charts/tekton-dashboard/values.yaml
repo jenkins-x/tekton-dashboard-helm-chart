@@ -5,11 +5,11 @@ ingress:
     enabled: true
     secretName: example.com
 # this is the auth host for the proxy (tekton-auth.example.com) and used to template ingress annotations for redirection
-authHost: example.example.com
+authHost:
 # deploy oauth2 proxy as a dependency with tekton-dashboard-helm-chart to manage authorisation with GitHub
 # add clientID, clientSecret, cookieSecret or use existingSecret to attach to a secret
 oauth2-proxy:
-# enable or disable oauth2-proxy
+# enable or disable oauth2-proxy: default = false
   enabled: false
   config:
     clientID: your-githubClient
