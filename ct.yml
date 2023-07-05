@@ -1,6 +1,8 @@
 # See https://github.com/helm/chart-testing#configuration
 chart-dirs:
   - charts
+chart-repos:
+  - oauth2-proxy=https://oauth2-proxy.github.io/manifests
 remote: origin
 target-branch: main
 validate-maintainers: false

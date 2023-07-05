@@ -1,24 +1,27 @@
-{{- if .Values.url }}
+{{- if .Values.ingress.host }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tekton-dashboard
-  namespace: tekton-pipelines
+  namespace: '{{ .Release.Namespace }}'
+  annotations:
+    nginx.ingress.kubernetes.io/auth-signin: https://{{ toYaml .Values.authHost }}/oauth2/start?rd=https://$host$uri
+    nginx.ingress.kubernetes.io/auth-url: https://{{ toYaml .Values.authHost }}/oauth2/auth
 spec:
-   {{- if .Values.tls.enabled }}
-   tls:
-   - hosts: 
-     - {{ .Values.url }}
-     secretName: {{ .Values.secretName }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.secretName }}
+  {{- end }}
   rules:
-  - host: {{ .Values.url }}
-    http:
-      paths:
-      - pathType: ImplementationSpecific
-        backend:
-          service:
-            name: tekton-dashboard
-            port:
-              number: 9097
-{{- end }}
-   {{- end }}
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tekton-dashboard
+                port:
+                  number: 9097
+  {{- end }}
