@@ -4,11 +4,12 @@ kind: Ingress
 metadata:
   name: tekton-dashboard
   namespace: '{{ .Release.Namespace }}'
-  {{- if .Values.authHost }}
   annotations:
+    {{- if .Values.authHost }}
     nginx.ingress.kubernetes.io/auth-signin: https://{{ toYaml .Values.authHost }}/oauth2/start?rd=https://$host$uri
     nginx.ingress.kubernetes.io/auth-url: https://{{ toYaml .Values.authHost }}/oauth2/auth
-  {{- end }}
+    {{- end }}
+    kubernetes.io/ingress.class: nginx
 spec:
   {{- if .Values.ingress.tls.enabled }}
   tls:
