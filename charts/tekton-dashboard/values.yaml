@@ -1,29 +1,19 @@
-# tekton-ingress example with TLS enabled
 ingress:
-  host: tekton-dashboard.acme.com
+  host: tekton-dashboard.mqube-oss.com
   tls:
     enabled: true
-    secretName: example.com
-# this is the auth host for the proxy (tekton-auth.example.com) and used to template ingress annotations for redirection
-# only add an authHost if deploying oauth2-proxy
-authHost:
-# deploy oauth2 proxy as a dependency with tekton-dashboard-helm-chart to manage authorisation with GitHub
-# add clientID, clientSecret, cookieSecret or use existingSecret to attach to a secret
+    secretName: 'tls-mqube-oss-com-p'
+authHost: tekton-oauth2.mqube-oss.com
 oauth2-proxy:
-# enable or disable oauth2-proxy: default = false
-  enabled: false
+  enabled: true
   config:
-    clientID: your-githubClient
-    clientSecret: your-githubSecret
-#   cookieSecret: your-cookieSecret
-#   existingSecret: test # enter secret name here
+    existingSecret: oauth2-proxy-config
   extraArgs:
     provider: github
-# scope user:email (fix for version 6.13.1 Github issues)
     scope: user:email
-    github-org: your-org
-    cookie-domain: .example.com
-    whitelist-domain: .example.com
+    github-org: spring-financial-group
+    cookie-domain: .mqube-oss.com
+    whitelist-domain: .mqube-oss.com
   ingress:
     enabled: true
     path: /oauth2
@@ -31,12 +21,11 @@ oauth2-proxy:
     className: nginx
     annotations:
       acme.cert-manager.io/http01-edit-in-place: "true"
-# add or remove cert manger dependent on use case. Add clusterIssuer lets-encrypt below
-      cert-manager.io/cluster-issuer: letsencrypt-yourEnv
+      cert-manager.io/cluster-issuer: letsencrypt-prod
       kubernetes.io/tls-acme: "true"
     hosts:
-      - example.com
+      - tekton-oauth2.mqube-oss.com
     tls:
       - hosts:
-          - example.com
-        secretName: example.com
+          - tekton-oauth2.mqube-oss.com
+        secretName: tls-mqube-oss-com-p
