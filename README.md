@@ -40,7 +40,7 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 Once Helm is set up properly, add the repo as follows:
 
 ```bash
-helm repo add jxgh https://jenkins-x.github.io/tekton-dashboard-helm-chart/
+helm repo add jxtkn https://jenkins-x.github.io/tekton-dashboard-helm-chart/
 ```
 
 you can then do
