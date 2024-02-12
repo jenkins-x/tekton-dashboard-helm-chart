@@ -1,7 +1,7 @@
 apiVersion: v2
 description: A Helm chart for Tekton Pipelines Dashboard
 name: tekton-dashboard
-version: 0.0.4
+version: 0.0.5
 appVersion: 0.35.0
 icon: https://avatars2.githubusercontent.com/u/47602533
 home: https://github.com/jenkins-x/tekton-dashboard-helm-chart
