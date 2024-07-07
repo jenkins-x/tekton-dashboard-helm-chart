@@ -6,12 +6,12 @@ ingress:
     secretName: example.com
   annotations: 
     kubernetes.io/ingress.class: nginx
-  
-
 service:
   type: LoadBalancer
   enabled: true
   annotations: {}
+
+readonly: true
 # this is the auth host for the proxy (tekton-auth.example.com) and used to template ingress annotations for redirection
 # only add an authHost if deploying oauth2-proxy
 authHost:
