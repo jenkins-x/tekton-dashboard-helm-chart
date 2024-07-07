@@ -2,5 +2,5 @@
 
 *.tmp
 *.tar.gz
-*.tgz
+#*.tgz
 *.lock
