@@ -10,8 +10,13 @@ metadata:
     app.kubernetes.io/version: v0.35.0
     dashboard.tekton.dev/release: v0.35.0
     version: v0.35.0
+  annotations:
+{{- if .Values.service.annotations }}
+{{ toYaml .Values.service.annotations | indent 4 }}
+{{- end }}
   name: tekton-dashboard
 spec:
+  type: {{ .Values.service.type }}
   ports:
     - name: http
       port: 9097

@@ -36,7 +36,7 @@ spec:
             - --logout-url=
             - --pipelines-namespace=tekton-pipelines
             - --triggers-namespace=tekton-pipelines
-            - --read-only=true
+            - --read-only={{ .Values.readonly }}
             - --log-level=info
             - --log-format=json
             - --namespace=
