@@ -1,0 +1,20 @@
+apiVersion: v1
+entries:
+  tekton-dashboard:
+  - apiVersion: v2
+    appVersion: 0.35.0
+    created: "2024-07-07T12:08:06.064456+03:00"
+    dependencies:
+    - condition: oauth2-proxy.enabled
+      name: oauth2-proxy
+      repository: https://oauth2-proxy.github.io/manifests
+      version: 6.13.1
+    description: A Helm chart for Tekton Pipelines Dashboard
+    digest: eaabfacf62d91d7f0706b523d1330186dfd03cdaa6734ea4e6153fc54476de1e
+    home: https://github.com/jenkins-x/tekton-dashboard-helm-chart
+    icon: https://avatars2.githubusercontent.com/u/47602533
+    name: tekton-dashboard
+    urls:
+    - https://workcanvas.github.io/tekton-dashboard-helm-chart/tekton-dashboard-0.0.5.tgz
+    version: 0.0.5
+generated: "2024-07-07T12:08:06.059602+03:00"
