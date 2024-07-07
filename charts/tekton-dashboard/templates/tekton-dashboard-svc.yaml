@@ -16,7 +16,7 @@ metadata:
 {{- end }}
   name: tekton-dashboard
 spec:
-  type: {{- .Values.service.type -}}
+  type: {{ .Values.service.type }}
   ports:
     - name: http
       port: 9097
