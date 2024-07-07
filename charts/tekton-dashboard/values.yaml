@@ -6,9 +6,10 @@ ingress:
     secretName: example.com
   annotations: 
     kubernetes.io/ingress.class: nginx
-
+  
 
 service:
+  type: LoadBalancer
   enabled: true
   annotations: {}
 # this is the auth host for the proxy (tekton-auth.example.com) and used to template ingress annotations for redirection
