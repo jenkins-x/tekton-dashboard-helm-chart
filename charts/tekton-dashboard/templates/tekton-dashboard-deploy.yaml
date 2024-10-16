@@ -33,15 +33,15 @@ spec:
       containers:
         - args:
             - --port=9097
-            - --logout-url=
+            - --logout-url={{ .Values.container.logoutUrl | default "" }}
             - --pipelines-namespace=tekton-pipelines
             - --triggers-namespace=tekton-pipelines
-            - --read-only=true
+            - --read-only={{ .Values.container.readOnly | default "true" }}
             - --log-level=info
             - --log-format=json
-            - --namespace=
+            - --namespace={{ .Values.container.namespace | default "" }}
             - --stream-logs=true
-            - --external-logs=
+            - --external-logs={{ .Values.container.externalLogs | default "" }}
           env:
             - name: INSTALLED_NAMESPACE
               valueFrom:
