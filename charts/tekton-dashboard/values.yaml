@@ -4,6 +4,7 @@ ingress:
   tls:
     enabled: true
     secretName: example.com
+# specifics container args that are passed to the dashboard container
 container:
     namespace:
     readOnly: ""
