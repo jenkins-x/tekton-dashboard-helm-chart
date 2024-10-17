@@ -19,7 +19,7 @@ endif
   # kustomize the resources to include some helm template blocs
 	kustomize build ${CHART_DIR} | sed '/helmTemplateRemoveMe/d' > ${RESOURCE_YAML}
   # Remove namespace from metadata to force with helm install
-	find $(CHART_DIR)/templates -type f -name "*.yaml" -exec yq -i eval 'del(.metadata.namespace)' {} \;
+	find $(CHART_DIR)/templates -type f -name "*.yaml" -exec yq -i eval 'del(.metadata.namespace)' "{}" \;
   # Amend subjects.namespace with release.namespace
 	find . -type f \( -name "*-crb.yaml" -o -name "*-rb.yaml" \)  -exec yq -i '(.subjects[] | select(has("namespace"))).namespace = "{{ .Release.Namespace }}"' "{}" \;
   # Add dynamic external-logs container arg
