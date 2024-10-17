@@ -4,6 +4,9 @@ ingress:
   tls:
     enabled: true
     secretName: example.com
+# args passed to the dashboard containers
+container:
+  externalLogs: ""
 # this is the auth host for the proxy (tekton-auth.example.com) and used to template ingress annotations for redirection
 # only add an authHost if deploying oauth2-proxy
 authHost:

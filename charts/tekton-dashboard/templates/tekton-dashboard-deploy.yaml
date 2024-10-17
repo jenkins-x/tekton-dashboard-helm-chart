@@ -41,7 +41,7 @@ spec:
             - --log-format=json
             - --namespace=
             - --stream-logs=true
-            - --external-logs=
+            - --external-logs={{ .Values.container.externalLogs | default "" }}
           env:
             - name: INSTALLED_NAMESPACE
               valueFrom:
