@@ -16,22 +16,23 @@ endif
   # Split and rename resource.yaml
 	jx gitops split -d ${CHART_DIR}/templates
 	jx gitops rename -d ${CHART_DIR}/templates
-  # kustomize the resources to include some helm template blocs
-	kustomize build ${CHART_DIR} | sed '/helmTemplateRemoveMe/d' > ${RESOURCE_YAML}
   # Remove namespace from metadata to force with helm install
 	find $(CHART_DIR)/templates -type f -name "*.yaml" -exec yq -i eval 'del(.metadata.namespace)' "{}" \;
   # Amend subjects.namespace with release.namespace
 	find . -type f \( -name "*-crb.yaml" -o -name "*-rb.yaml" \)  -exec yq -i '(.subjects[] | select(has("namespace"))).namespace = "{{ .Release.Namespace }}"' "{}" \;
   # Add dynamic external-logs container arg
-	yq -i '(.spec.template.spec.containers[].args[] | select(. == "--external-logs=")) = "--external-logs={{ .Values.container.externalLogs | default \"\" }}"' ${CHART_DIR}/templates/tekton-dashboard-deploy.yaml
-  # Clean up divider chars
-	sed -i '/---/d' ${CHART_DIR}/templates/*
-  # Remove resource.yaml
-	rm -f ${RESOURCE_YAML}
+	yq  '.spec.template.spec.containers[0].args[]  | split("=") | [.[0] | sub("^--","") , .[1] ] as $$item ireduce({}; .[$$item[0]] = $$item[1])' $(CHART_DIR)/templates/tekton-dashboard-deploy.yaml > args.yaml
+	yq -i '.args = load("args.yaml")' $(CHART_DIR)/values.yaml
+  # kustomize the resources to include some helm template blocs
+	kustomize build ${CHART_DIR} | sed '/helmTemplateRemoveMe/d' > ${CHART_DIR}/templates/resource.yaml
+	jx gitops split -d ${CHART_DIR}/templates
+	jx gitops rename -d ${CHART_DIR}/templates
+  # Remove temporary files
+	rm -f ${RESOURCE_YAML} args.yaml
   # Copy src templates
 	cp src/templates/* ${CHART_DIR}/templates
 ifneq ($(CHART_VERSION),latest)
-	sed -i "s/^appVersion:.*/appVersion: ${CHART_VERSION}/" ${CHART_DIR}/Chart.yaml
+	sed -i "" -e "s/^appVersion:.*/appVersion: ${CHART_VERSION}/" ${CHART_DIR}/Chart.yaml
 endif
 
 build:
