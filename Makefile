@@ -5,7 +5,7 @@ RESOURCE_YAML := ${CHART_DIR}/templates/resource.yaml
 
 CHART_REPO := gs://jenkinsxio/charts
 
-fetch:
+prep:
 	rm -f ${CHART_DIR}/templates/*.yaml
 	mkdir -p ${CHART_DIR}/templates
 ifeq ($(CHART_VERSION),latest)
@@ -31,9 +31,10 @@ endif
 	rm -f ${RESOURCE_YAML} args.yaml
   # Copy src templates
 	cp src/templates/* ${CHART_DIR}/templates
-ifneq ($(CHART_VERSION),latest)
-	sed -i "" -e "s/^appVersion:.*/appVersion: ${CHART_VERSION}/" ${CHART_DIR}/Chart.yaml
-endif
+
+fetch: prep
+  # Set value in Chart.yaml
+	yq eval -i '.appVersion = "$(shell yq eval '.data.version | sub("v"; "")' ${CHART_DIR}/templates/dashboard-info-cm.yaml)"' ${CHART_DIR}/Chart.yaml
 
 build:
 	rm -rf Chart.lock
