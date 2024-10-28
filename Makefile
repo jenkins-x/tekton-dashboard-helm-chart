@@ -31,9 +31,8 @@ endif
 	rm -f ${RESOURCE_YAML} args.yaml
   # Copy src templates
 	cp src/templates/* ${CHART_DIR}/templates
-ifneq ($(CHART_VERSION),latest)
-	sed -i "" -e "s/^appVersion:.*/appVersion: ${CHART_VERSION}/" ${CHART_DIR}/Chart.yaml
-endif
+  # Set value in Chart.yaml
+	yq eval -i '.appVersion = (load("$(CHART_DIR)/templates/dashboard-info-cm.yaml").data.version | sub("v"; ""))' ${CHART_DIR}/Chart.yaml
 
 build:
 	rm -rf Chart.lock
