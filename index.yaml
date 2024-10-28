@@ -3,7 +3,23 @@ entries:
   tekton-dashboard:
   - apiVersion: v2
     appVersion: 0.35.0
-    created: "2024-10-18T13:29:49.612972559Z"
+    created: "2024-10-28T19:45:52.387007685Z"
+    dependencies:
+    - condition: oauth2-proxy.enabled
+      name: oauth2-proxy
+      repository: https://oauth2-proxy.github.io/manifests
+      version: 6.13.1
+    description: A Helm chart for Tekton Pipelines Dashboard
+    digest: 70c6ab3f0b893dc70cdc8d42e0697263a6faaf45c6cd8428c01a1653548115f5
+    home: https://github.com/jenkins-x/tekton-dashboard-helm-chart
+    icon: https://avatars2.githubusercontent.com/u/47602533
+    name: tekton-dashboard
+    urls:
+    - tekton-dashboard-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.35.0
+    created: "2024-10-28T19:45:52.38213429Z"
     dependencies:
     - condition: oauth2-proxy.enabled
       name: oauth2-proxy
@@ -19,7 +35,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 0.35.0
-    created: "2024-10-18T13:29:49.607374948Z"
+    created: "2024-10-28T19:45:52.376313033Z"
     dependencies:
     - condition: oauth2-proxy.enabled
       name: oauth2-proxy
@@ -35,7 +51,7 @@ entries:
     version: 0.0.5
   - apiVersion: v2
     appVersion: 0.35.0
-    created: "2024-10-18T13:29:49.601913023Z"
+    created: "2024-10-28T19:45:52.370707745Z"
     dependencies:
     - condition: oauth2-proxy.enabled
       name: oauth2-proxy
@@ -51,7 +67,7 @@ entries:
     version: 0.0.4
   - apiVersion: v2
     appVersion: 0.35.0
-    created: "2024-10-18T13:29:49.597036983Z"
+    created: "2024-10-28T19:45:52.365191868Z"
     dependencies:
     - condition: oauth2-proxy.enabled
       name: oauth2-proxy
@@ -67,7 +83,7 @@ entries:
     version: 0.0.3
   - apiVersion: v2
     appVersion: 0.35.0
-    created: "2024-10-18T13:29:49.591367864Z"
+    created: "2024-10-28T19:45:52.360125922Z"
     dependencies:
     - condition: oauth2-proxy.enabled
       name: oauth2-proxy
@@ -83,7 +99,7 @@ entries:
     version: 0.0.2
   - apiVersion: v1
     appVersion: 0.35.0
-    created: "2024-10-18T13:29:49.585683995Z"
+    created: "2024-10-28T19:45:52.353992098Z"
     description: A Helm chart for Tekton Pipelines Dashboard
     digest: ff34d684ac792abc1d36568b0dd065c2a37500806b2205fe4d23ad9892fdeaab
     home: https://github.com/jenkins-x/tekton-dashboard-helm-chart
@@ -92,4 +108,4 @@ entries:
     urls:
     - tekton-dashboard-0.0.1.tgz
     version: 0.0.1
-generated: "2024-10-18T13:29:49.585335315Z"
+generated: "2024-10-28T19:45:52.353654465Z"
