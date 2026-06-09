@@ -8,5 +8,5 @@ home: https://github.com/jenkins-x/tekton-dashboard-helm-chart
 dependencies:
   - name: oauth2-proxy
     repository: https://oauth2-proxy.github.io/manifests
-    version: 6.13.1
+    version: 10.6.0
     condition: oauth2-proxy.enabled
