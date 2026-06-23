@@ -1,9 +1,56 @@
+# Expose the dashboard via EITHER ingress OR gateway (Gateway API). See README for the
+# supported dashboard/oauth2-proxy exposure combinations.
 # tekton-ingress example with TLS enabled
 ingress:
+  enabled: true
   host: tekton-dashboard.acme.com
   tls:
     enabled: true
     secretName: example.com
+# Expose the dashboard via the Gateway API. When enabled this renders an HTTPRoute
+# and (when auth is enabled) an Envoy Gateway SecurityPolicy for the dashboard
+gateway:
+  enabled: false
+  host: tekton-dashboard.acme.com
+  pathPrefix: /
+  annotations: {}
+  # Gateways the HTTPRoute attaches to. Defaults to the Envoy Gateway
+  parentRefs:
+    - name: envoy-gateway
+      namespace: envoy-gateway-system
+      sectionName: https
+  # External authentication
+  # Rendered as an Envoy Gateway SecurityPolicy targeting the dashboard HTTPRoute
+  auth:
+    enabled: false
+    # Which SecurityPolicy spec to render: oidc | extAuth
+    type: oidc
+    # oidc: OIDC connector to an identity provider via Envoy Gateway (eg. Okta, Keycloak, Dex, etc)
+    oidc:
+      issuer: ""
+      clientID: ""
+      # Alternatively, reference a Secret holding the client ID under key "client-id"
+      clientIDRef:
+        name: ""
+      # OIDC client secret under key "client-secret"
+      clientSecretRef:
+        name: ""
+      redirectURL: ""
+      logoutPath: /logout
+      scopes: []
+      cookieDomain: ""
+      # Optional explicit endpoints (otherwise discovered from the issuer)
+      authorizationEndpoint: ""
+      tokenEndpoint: ""
+      # Forward the access token upstream via Authorization: Bearer
+      forwardAccessToken: false
+    # extAuth: delegate to an external auth service
+    extAuth:
+      backend: {}
+      authPath: /oauth2/auth
+      failOpen: false
+      # headers the auth backend returns that are forwarded to the dashboard
+      headersToBackend: []
 # this is the auth host for the proxy (tekton-auth.example.com) and used to template ingress annotations for redirection
 # only add an authHost if deploying oauth2-proxy
 authHost:
@@ -24,6 +71,26 @@ oauth2-proxy:
     github-org: your-org
     cookie-domain: .example.com
     whitelist-domain: .example.com
+  # Expose sign-in and callback endpoints via Gateway API
+  gatewayApi:
+    enabled: false
+    # Gateway the oauth2-proxy HTTPRoute attaches to
+    gatewayRef: {}
+    # Route only the /oauth2 prefix to oauth2-proxy
+    # backendRef defaults oauth2-proxy Service
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /oauth2
+    # Must match gateway.host so /oauth2/* lives alongside the dashboard.
+    hostnames:
+      - example.com
+    # Additional labels to add to the HTTPRoute
+    labels: {}
+    # Additional annotations to add to the HTTPRoute
+    annotations: {}
+  # Expose sign-in and callback endpoints via Ingress
   ingress:
     enabled: true
     path: /oauth2

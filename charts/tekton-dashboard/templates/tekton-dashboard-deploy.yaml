@@ -7,9 +7,9 @@ metadata:
     app.kubernetes.io/instance: default
     app.kubernetes.io/name: dashboard
     app.kubernetes.io/part-of: tekton-dashboard
-    app.kubernetes.io/version: v0.61.0
-    dashboard.tekton.dev/release: v0.61.0
-    version: v0.61.0
+    app.kubernetes.io/version: v0.63.1
+    dashboard.tekton.dev/release: v0.63.1
+    version: v0.63.1
   name: tekton-dashboard
 spec:
   replicas: 1
@@ -27,7 +27,7 @@ spec:
         app.kubernetes.io/instance: default
         app.kubernetes.io/name: dashboard
         app.kubernetes.io/part-of: tekton-dashboard
-        app.kubernetes.io/version: v0.61.0
+        app.kubernetes.io/version: v0.63.1
       name: tekton-dashboard
     spec:
       affinity:
@@ -60,7 +60,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: ghcr.io/tektoncd/dashboard/dashboard-9623576a202fe86c8b7d1bc489905f86:v0.61.0@sha256:32c8bb482129b42c5b09a29b34140aed53dc3ade1d7e24fef7a194075d1c87c7
+        image: ghcr.io/tektoncd/dashboard/dashboard-9623576a202fe86c8b7d1bc489905f86:v0.63.1@sha256:16eca97b649f6f27dfbab2be167be0afc34bab43af9d3304f64bf7f04d44e606
         livenessProbe:
           httpGet:
             path: /health

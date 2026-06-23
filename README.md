@@ -13,9 +13,9 @@ The following tools need to be installed locally:
 - [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/)
 - [yq](https://github.com/mikefarah/yq/#install)
 
-### Jenkins X
+### JayeX
 
-If you are creating a template to be used in Jenkins X version, you can run the following command:
+If you are creating a template to be used in JayeX version, you can run the following command:
 
 ```bash
 make fetch

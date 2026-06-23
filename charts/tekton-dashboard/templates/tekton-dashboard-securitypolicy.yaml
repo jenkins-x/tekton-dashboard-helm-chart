@@ -1,0 +1,59 @@
+{{- if and .Values.gateway.enabled .Values.gateway.auth.enabled }}
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: tekton-dashboard
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: tekton-dashboard
+  {{- if eq .Values.gateway.auth.type "extAuth" }}
+  extAuth:
+    failOpen: {{ .Values.gateway.auth.extAuth.failOpen }}
+    http:
+      backendRefs:
+      - name: {{ .Values.gateway.auth.extAuth.backend.serviceName | default "oauth2-proxy" }}
+        port: {{ .Values.gateway.auth.extAuth.backend.port | default 80 }}
+      path: {{ .Values.gateway.auth.extAuth.authPath }}
+      headersToBackend:
+        {{- toYaml .Values.gateway.auth.extAuth.headersToBackend | nindent 8 }}
+  {{- else if eq .Values.gateway.auth.type "oidc" }}
+  oidc:
+    provider:
+      issuer: {{ .Values.gateway.auth.oidc.issuer | quote }}
+      {{- with .Values.gateway.auth.oidc.authorizationEndpoint }}
+      authorizationEndpoint: {{ . | quote }}
+      {{- end }}
+      {{- with .Values.gateway.auth.oidc.tokenEndpoint }}
+      tokenEndpoint: {{ . | quote }}
+      {{- end }}
+    {{- if .Values.gateway.auth.oidc.clientIDRef.name }}
+    clientIDRef:
+      name: {{ .Values.gateway.auth.oidc.clientIDRef.name | quote }}
+      {{- with .Values.gateway.auth.oidc.clientIDRef.kind }}
+      kind: {{ . | quote }}
+      {{- end }}
+      {{- with .Values.gateway.auth.oidc.clientIDRef.namespace }}
+      namespace: {{ . | quote }}
+      {{- end }}
+    {{- else }}
+    clientID: {{ .Values.gateway.auth.oidc.clientID | quote }}
+    {{- end }}
+    clientSecret:
+      name: {{ .Values.gateway.auth.oidc.clientSecretRef.name | quote }}
+    {{- with .Values.gateway.auth.oidc.redirectURL }}
+    redirectURL: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.gateway.auth.oidc.logoutPath }}
+    logoutPath: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.gateway.auth.oidc.cookieDomain }}
+    cookieDomain: {{ . | quote }}
+    {{- end }}
+    scopes:
+      {{- toYaml .Values.gateway.auth.oidc.scopes | nindent 6 }}
+    forwardAccessToken: {{ .Values.gateway.auth.oidc.forwardAccessToken }}
+  {{- end }}
+{{- end }}
